@@ -113,6 +113,7 @@ if %clean% == 1 (
   rmdir /s /q thirdparty\src\googletest\build
   rmdir /s /q thirdparty\src\leveldb\build
   rmdir /s /q thirdparty\src\marisa-trie\build
+  rmdir /s /q thirdparty\src\nowide\cmake-build
   rmdir /s /q thirdparty\src\opencc\build
   rmdir /s /q thirdparty\src\yaml-cpp\build
 )
@@ -174,7 +175,7 @@ if %build_thirdparty% == 1 (
   cd /d %THIRDPARTY%
 
   echo building nowide.
-  cd %THIRDPARTY%\nowide
+  cd %THIRDPARTY%\src\nowide
   cmake . -Bcmake-%build_dir% %THIRDPARTY_COMMON_CMAKE_FLAGS%
   if errorlevel 1 goto error
   cmake --build cmake-%build_dir% --config %build_config% --target INSTALL

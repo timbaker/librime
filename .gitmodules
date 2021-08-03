@@ -19,3 +19,6 @@
 [submodule "thirdparty/src/capnproto"]
 	path = thirdparty/src/capnproto
 	url = https://github.com/lotem/capnproto.git
+[submodule "thirdparty/src/nowide"]
+	path = thirdparty/src/nowide
+	url = https://github.com/timbaker/nowide.git
