@@ -4,7 +4,7 @@
 //
 // 2013-01-30 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
+#include <boost/nowide/fstream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <rime/algo/utilities.h>
 
@@ -34,7 +34,7 @@ ChecksumComputer::ChecksumComputer(uint32_t initial_remainder)
     : crc_(initial_remainder) {}
 
 void ChecksumComputer::ProcessFile(const string& file_name) {
-  std::ifstream fin(file_name.c_str());
+  boost::nowide::ifstream fin(file_name.c_str());
   string file_content((std::istreambuf_iterator<char>(fin)),
                            std::istreambuf_iterator<char>());
   crc_.process_bytes(file_content.data(), file_content.length());

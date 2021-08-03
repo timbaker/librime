@@ -4,7 +4,7 @@
 //
 #include <cctype>
 #include <cstdlib>
-#include <fstream>
+#include <boost/nowide/fstream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
@@ -84,7 +84,7 @@ bool ConfigData::SaveToFile(const string& file_name) {
   }
   LOG(INFO) << "saving config file '" << file_name << "'.";
   // dump tree
-  std::ofstream out(file_name.c_str());
+  boost::nowide::ofstream out(file_name.c_str());
   return SaveToStream(out);
 }
 

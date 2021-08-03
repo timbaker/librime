@@ -46,6 +46,7 @@ set(rime_core_deps
     ${Glog_LIBRARY}
     ${YamlCpp_LIBRARY}
     ${CMAKE_THREAD_LIBS_INIT}
+    Boost::nowide
     ${rime_optional_deps})
 set(rime_dict_deps
     ${LevelDb_LIBRARY}

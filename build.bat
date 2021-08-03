@@ -173,6 +173,13 @@ set THIRDPARTY_COMMON_CMAKE_FLAGS=-G%CMAKE_GENERATOR%^
 if %build_thirdparty% == 1 (
   cd /d %THIRDPARTY%
 
+  echo building nowide.
+  cd %THIRDPARTY%\nowide
+  cmake . -Bcmake-%build_dir% %THIRDPARTY_COMMON_CMAKE_FLAGS%
+  if errorlevel 1 goto error
+  cmake --build cmake-%build_dir% --config %build_config% --target INSTALL
+  if errorlevel 1 goto error
+
   echo building capnproto.
   cd %THIRDPARTY%\src\capnproto
   cmake . -B%build_dir% %THIRDPARTY_COMMON_CMAKE_FLAGS%^

@@ -4,6 +4,7 @@
 //
 // 2012-01-17 GONG Chen <chen.sst@gmail.com>
 //
+#define GLOG_NO_ABBREVIATED_SEVERITIES
 #include <boost/algorithm/string.hpp>
 #include <utf8.h>
 #include <rime/algo/calculus.h>

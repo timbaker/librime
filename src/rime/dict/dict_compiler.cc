@@ -7,7 +7,7 @@
 #include <boost/filesystem.hpp>
 #include <cfloat>
 #include <cmath>
-#include <fstream>
+#include <boost/nowide/fstream.hpp>
 #include <rime/algo/algebra.h>
 #include <rime/algo/utilities.h>
 #include <rime/dict/corrector.h>
@@ -42,7 +42,7 @@ DictCompiler::~DictCompiler() {}
 
 static bool load_dict_settings_from_file(DictSettings* settings,
                                          const fs::path& dict_file) {
-  std::ifstream fin(dict_file.string().c_str());
+  boost::nowide::ifstream fin(dict_file.string().c_str());
   bool success = settings->LoadDictHeader(fin);
   fin.close();
   return success;

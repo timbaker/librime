@@ -4,7 +4,7 @@
 //
 // 2013-04-14 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
+#include <boost/nowide/fstream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <rime/common.h>
 #include <rime/dict/db_utils.h>
@@ -15,7 +15,7 @@ namespace rime {
 int TsvReader::operator() (Sink* sink) {
   if (!sink) return 0;
   LOG(INFO) << "reading tsv file: " << path_;
-  std::ifstream fin(path_.c_str());
+  boost::nowide::ifstream fin(path_.c_str());
   string line, key, value;
   Tsv row;
   int line_no = 0;
@@ -60,7 +60,7 @@ int TsvReader::operator() (Sink* sink) {
 int TsvWriter::operator() (Source* source) {
   if (!source) return 0;
   LOG(INFO) << "writing tsv file: " << path_;
-  std::ofstream fout(path_.c_str());
+  boost::nowide::ofstream fout(path_.c_str());
   if (!file_description.empty()) {
     fout << "# " << file_description << std::endl;
   }

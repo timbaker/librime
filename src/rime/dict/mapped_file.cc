@@ -6,8 +6,9 @@
 //
 // 2011-06-30 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
+#include <boost/nowide/filebuf.hpp>
 #include <boost/filesystem.hpp>
+#define BOOST_INTERPROCESS_WCHAR_NAMED_RESOURCES
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <rime/dict/mapped_file.h>
@@ -20,9 +21,24 @@
 
 #ifdef _WIN32
 #include <windows.h>
+
+std::wstring toNativeFilename(const std::string& str)
+{
+    std::wstring ret;
+    int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), NULL, 0);
+    if (len > 0)
+    {
+        ret.resize(len);
+        MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &ret[0], len);
+    }
+    return ret;
+}
+
+
 #define RESIZE_FILE(P,SZ) (resize_file_api(P, SZ) != 0)
 static BOOL resize_file_api(const char* p, boost::uintmax_t size) {
-  HANDLE handle = CreateFileA(p, GENERIC_WRITE, 0, 0, OPEN_EXISTING,
+  std::wstring p_wide = toNativeFilename(p);
+  HANDLE handle = CreateFileW(p_wide.c_str(), GENERIC_WRITE, 0, 0, OPEN_EXISTING,
                               FILE_ATTRIBUTE_NORMAL, 0);
   LARGE_INTEGER sz;
   sz.QuadPart = size;
@@ -51,7 +67,8 @@ class MappedFileImpl {
     boost::interprocess::mode_t file_mapping_mode =
         (mode == kOpenReadOnly) ? boost::interprocess::read_only
                                 : boost::interprocess::read_write;
-    file_.reset(new boost::interprocess::file_mapping(file_name.c_str(), file_mapping_mode));
+    std::wstring file_name_wide = toNativeFilename(file_name);
+    file_.reset(new boost::interprocess::file_mapping(file_name_wide.c_str(), file_mapping_mode));
     region_.reset(new boost::interprocess::mapped_region(*file_, file_mapping_mode));
   }
   ~MappedFileImpl() {
@@ -91,7 +108,7 @@ bool MappedFile::Create(size_t capacity) {
   }
   else {
     LOG(INFO) << "creating file '" << file_name_ << "'.";
-    std::filebuf fbuf;
+    boost::nowide::filebuf fbuf;
     fbuf.open(file_name_.c_str(),
               std::ios_base::in | std::ios_base::out |
               std::ios_base::trunc | std::ios_base::binary);

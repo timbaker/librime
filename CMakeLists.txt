@@ -129,6 +129,12 @@ if(Opencc_STATIC)
   add_definitions(-DOpencc_BUILT_AS_STATIC)
 endif()
 
+#find_package(Boost COMPONENTS nowide REQUIRED)
+find_package(boost_nowide REQUIRED)
+if(boost_nowide_FOUND)
+  include_directories(${boost_nowide_INCLUDE_PATH})
+endif()
+
 find_path(X11Keysym X11/keysym.h)
 if(X11Keysym)
   message(STATUS "Found X11/keysym.h at ${X11Keysym}")

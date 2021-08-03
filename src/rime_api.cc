@@ -7,6 +7,7 @@
 #include <cstring>
 #include <sstream>
 #include <boost/format.hpp>
+#include <boost/nowide/filesystem.hpp>
 #include <rime/common.h>
 #include <rime/composition.h>
 #include <rime/config.h>
@@ -50,6 +51,10 @@ static void rime_declare_module_dependencies() {
 #endif
 
 RIME_API void RimeSetup(RimeTraits *traits) {
+
+  // This magic call lets boost use UTF-8 pathnames on Windows.
+  boost::nowide::nowide_filesystem();
+
   rime_declare_module_dependencies();
 
   SetupDeployer(traits);

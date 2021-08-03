@@ -4,7 +4,7 @@
 //
 // 2011-11-27 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
+#include <boost/nowide/fstream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <rime/dict/dict_settings.h>
@@ -57,7 +57,7 @@ void EntryCollector::LoadPresetVocabulary(DictSettings* settings) {
 void EntryCollector::Collect(const string& dict_file) {
   LOG(INFO) << "collecting entries from " << dict_file;
   // read table
-  std::ifstream fin(dict_file.c_str());
+  boost::nowide::ifstream fin(dict_file.c_str());
   DictSettings settings;
   if (!settings.LoadDictHeader(fin)) {
     LOG(ERROR) << "missing dict settings.";
@@ -234,7 +234,7 @@ bool EntryCollector::TranslateWord(const string& word,
 }
 
 void EntryCollector::Dump(const string& file_name) const {
-  std::ofstream out(file_name.c_str());
+  boost::nowide::ofstream out(file_name.c_str());
   out << "# syllabary:" << std::endl;
   for (const string& syllable : syllabary) {
     out << "# - " << syllable << std::endl;
